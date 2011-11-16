@@ -1,0 +1,139 @@
+~~ Demoiselle Framework
+~~ Copyright (C) 2010 SERPRO
+~~ ============================================================================
+~~ This file is part of Demoiselle Framework.
+~~ 
+~~ Demoiselle Framework is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public License version 3
+~~ as published by the Free Software Foundation.
+~~ 
+~~ This program is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~~ GNU General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public License version 3
+~~ along with this program; if not,  see <http://www.gnu.org/licenses/>
+~~ or write to the Free Software Foundation, Inc., 51 Franklin Street,
+~~ Fifth Floor, Boston, MA  02110-1301, USA.
+~~ ============================================================================
+~~ Este arquivo é parte do Framework Demoiselle.
+~~ 
+~~ O Framework Demoiselle é um software livre; você pode redistribuí-lo e/ou
+~~ modificá-lo dentro dos termos da GNU LGPL versão 3 como publicada pela Fundação
+~~ do Software Livre (FSF).
+~~ 
+~~ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
+~~ GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
+~~ APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU/LGPL em português
+~~ para maiores detalhes.
+~~ 
+~~ Você deve ter recebido uma cópia da GNU LGPL versão 3, sob o título
+~~ "LICENCA.txt", junto com esse programa. Se não, acesse <http://www.gnu.org/licenses/>
+~~ ou escreva para a Fundação do Software Livre (FSF) Inc.,
+~~ 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+
+                                    ------
+                                    Documentação
+
+Documentação
+
+%{toc|section=1|fromDepth=1|toDepth=3}
+
+
+*{Introdução}
+
+  O Demoiselle Validation não requer muito trabalho para ser usado. Primeiro, faz-se necessário adicionar uma dependência ao seu projeto. Depois, definir
+  qual será o seu provedor de validação padrão. Atualmente, o Hibernate Validator apresenta-se como o mais adotado. Por último, basta usar as anotações 
+  de validação em seus beans. Vamos detalhar cada passo deste nesta documentação.
+
+*{Configuração}
+
+  Primeiro, precisamos configurar sua aplicação para usar o nosso componente. Adicione a dependência a seguir:
+
++----------------------------------------------------------------------------------------+
+	<dependencies>
+		<dependency>
+			<groupId>br.gov.frameworkdemoiselle.component</groupId>
+			<artifactId>demoiselle-validation</artifactId>
+			<version>1.0.0</version>
+			<scope>compile</scope>
+		</dependency> 
+	</dependencies>
++----------------------------------------------------------------------------------------+
+
+  Feito isto, você já terá o Demoiselle Validation disponível no classpath de sua aplicação. Agora, precisamos adicionar mais uma dependência ao seu projeto.
+  Esta dependência é a implementação padrão da JSR303. De forma curta, precisamos informar quem irá executar nossas validações de fato. O Demoiselle Validation
+  fornece as validações, mas não as executa. Quem deve fazer isto é uma implementação desta especificação. Para fins didáticos, adotaremos a Hibernate Validator.
+  
++----------------------------------------------------------------------------------------+
+	<dependencies>
+		<dependency>
+		     <groupId>org.hibernate</groupId>
+		     <artifactId>hibernate-validator</artifactId>
+		     <version>4.1.0.Final</version>
+		     <scope>compile</scope>
+		 </dependency>
+	</dependencies>
++----------------------------------------------------------------------------------------+
+
+  Pronto, já temos tudo pronto para começar a usar o componente.
+
+*{Utilizando}
+
+  Vamos exemplificar o uso das validações deste componente criando um bean fictício.
+
++----------------------------------------------------------------------------------------+
+@Entity public class Contact implements Serializable {
+
+	@Id @GeneratedValue
+	private Long id;
+
+	@NotNull @Size(min = 1, max = 100)
+	private String name;
+
+	@Temporal(TemporalType.TIMESTAMP) @Past
+	private Date birthday;
+	
+	@Size(max=255)
+	@Email
+	private String email;
+	
+	@PisPasep
+	private String pisPasep;
+	
+	@Cpf
+	private String cpf;
+	
+	@Cnpj
+	private String cnpj;
+	
+	@InscricaoEstadual(pattern=PatternInscricaoEstadual.BAHIA)
+	private String inscricaoEstadual;
+	
+	@Cep
+	private String cep;
++----------------------------------------------------------------------------------------+
+  
+  Observe que usamos também validações que fazem parte do Hibernate Validator, como a @Email, e validações da própria especificação JSR303, como @NotNull.
+  Quem implementa estas validações da própria especificação é a implementação padrão, neste caso, a Hibernate Validator. Pronto. Já validamos os campos do
+  nosso bean, mas, como saber se funcionou? Aqui, temos algumas opções. Primeiro, podemos fazer a validação manualmente. Segundo, podemos apelar para o JSF 2.0
+  que já é integrado ao Beans Validation e realiza a validação automaticamente para você. E, por último, podemos tentar persistir usando o JPA2.0, que também já
+  é integrado por padrão. Apresentaremos aqui apenas o caso da validação manual. Segue abaixo o código para realizar esta tarefa.
+  
++----------------------------------------------------------------------------------------+
+  Contato contato = new Contato();
+  ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+  Validator validator = validatorFactory.getValidator();
+  
+  Set<ConstraintViolation<Contato>> violations = validator.validate(contato);
+  
+  for (ConstraintViolation<Contato> violation : violations) {
+    String propertyPath = constraintViolation.getPropertyPath().toString();
+    String message = constraintViolation.getMessage();
+    System.out.println("invalid value for: '" + propertyPath + "': " + message);
+  }
++----------------------------------------------------------------------------------------+
+  
+  Observe como é simples. Lembrando que isto é necessário apenas caso você não esteja construíndo uma aplicação JSF2.0 ou com JPA 2.0. Nestes dois últimos casos,
+  nenhum código será necessário, pois as validações serão executadas automaticamente.
