@@ -1,0 +1,169 @@
+<!--
+ Demoiselle Framework
+ Copyright (C) 2010 SERPRO
+ ============================================================================
+ This file is part of Demoiselle Framework.
+ 
+ Demoiselle Framework is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public License version 3
+ as published by the Free Software Foundation.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License version 3
+ along with this program; if not,  see <http://www.gnu.org/licenses />
+ or write to the Free Software Foundation, Inc., 51 Franklin Street,
+ Fifth Floor, Boston, MA  02110-1301, USA.
+ ============================================================================
+ Este arquivo é parte do Framework Demoiselle.
+ 
+ O Framework Demoiselle é um software livre; você pode redistribuí-lo e/ou
+ modificá-lo dentro dos termos da GNU LGPL versão 3 como publicada pela Fundação
+ do Software Livre (FSF).
+ 
+ Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
+ GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
+ APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU/LGPL em português
+ para maiores detalhes.
+ 
+ Você deve ter recebido uma cópia da GNU LGPL versão 3, sob o título
+ "LICENCA.txt", junto com esse programa. Se não, acesse <http://www.gnu.org/licenses />
+ ou escreva para a Fundação do Software Livre (FSF) Inc.,
+ 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.gov.frameworkdemoiselle.component</groupId>
+	<artifactId>demoiselle-validation</artifactId>
+	<packaging>jar</packaging>
+	<version>2.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>br.gov.frameworkdemoiselle.component</groupId>
+		<artifactId>demoiselle-component-parent</artifactId>
+		<version>2.0.7-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<name>demoiselle-validation</name>
+	<description>Componente de Validação aderente com a JSR 303.</description>
+
+	<properties>
+		<!-- Propriedade utilizada para categorizar o componente no portal (http://demoiselle.sourceforge.net/component/) -->
+		<category>Visão</category>
+
+	</properties>
+
+	<!-- Dependências do projeto As versões das dependências estão declaradas no parent (demoiselle-component-parent) Quando 
+		necessário o uso de uma biblioteca nova ou um versão mais atual, deve-se abrir uma demanda(http://tracker.frameworkdemoiselle.gov.br) 
+		para adicionar esta dependência no parent dos componentes. Esta ação serve para minimizar os problemas de conflitos de versões 
+		de uma mesma biblioteca em mais de um component( versões distintas). -->
+	<dependencies>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+		</dependency>
+
+		<dependency>
+			<artifactId>alfred</artifactId>
+			<groupId>org.alfredlibrary</groupId>
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<!-- Este plugin serve para o envio dos arquivos de configuração do portal de componentes. Os arquivos da pasta src/site/portal 
+				serão enviados para a raiz do site de componentes informando a categoria do projeto e a descrição além de um arquivo index.php 
+				que redireciona para a ultima versão do componente. -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>${wagon-maven-plugin}</version>
+				<executions>
+					<execution>
+						<id>upload-portal-info</id>
+						<phase>site-deploy</phase>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<configuration>
+							<serverId>demoiselle.sourceforge.net</serverId>
+							<fromDir>${basedir}/target/site/portal</fromDir>
+							<url>${site.shell.url}/${project.artifactId}</url>
+							<toDir />
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Conexão com o repositório de fontes -->
+	<scm>
+		<connection>scm:svn:http://demoiselle.svn.sourceforge.net/svnroot/demoiselle/component/trunk/demoiselle-validation</connection>
+		<developerConnection>scm:svn:https://demoiselle.svn.sourceforge.net/svnroot/demoiselle/component/trunk/demoiselle-validation</developerConnection>
+		<url>scm:svn:http://demoiselle.svn.sourceforge.net/viewvc/demoiselle/component/trunk/demoiselle-validation</url>
+	</scm>
+
+	<!-- Distribuição do projeto -->
+	<distributionManagement>
+		<site>
+			<id>demoiselle.sourceforge.net</id>
+			<!-- O padrão para garantir o histório de sites é  <nome do componente>/<versao> -->
+			<url>${site.shell.url}/${project.artifactId}/${project.version}</url>
+		</site>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>alfredlibrary-release.googlecode.com</id>
+			<name>Alfred Library</name>
+			<url>http://alfredlibrary.googlecode.com/svn/repository/release</url>
+		</repository>
+		<repository>
+			<id>demoiselle.sourceforge.net</id>
+			<url>http://demoiselle.sourceforge.net/repository/release</url>
+		</repository>
+		<repository>
+			<id>demoiselle.sourceforge.net-snapshot</id>
+			<url>http://demoiselle.sourceforge.net/repository/snapshot</url>
+		</repository>
+	</repositories>
+</project>
