@@ -54,11 +54,6 @@
 	<name>demoiselle-validation</name>
 	<description>Componente de Validação aderente com a JSR 303.</description>
 
-	<properties>
-		<!-- Propriedade utilizada para categorizar o componente no portal (http://demoiselle.sourceforge.net/component/) -->
-		<category>Visão</category>
-
-	</properties>
 	
 	<build>
 		<plugins>
@@ -102,10 +97,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<!-- Dependências do projeto As versões das dependências estão declaradas no parent (demoiselle-component-parent) Quando 
-		necessário o uso de uma biblioteca nova ou um versão mais atual, deve-se abrir uma demanda(http://tracker.frameworkdemoiselle.gov.br) 
-		para adicionar esta dependência no parent dos componentes. Esta ação serve para minimizar os problemas de conflitos de versões 
-		de uma mesma biblioteca em mais de um component( versões distintas). -->
 
 	<repositories>
 		<repository>
@@ -118,6 +109,5 @@
 			<url>http://alfredlibrary.googlecode.com/svn/repository/release</url>
 		</repository>
 	</repositories>
-
 
 </project>
