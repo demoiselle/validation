@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="validation-configuracao">
+
+	<title>Configuração do Validation</title>
+	
+	<para>
+		Vamos iniciar a apresentação do componente demonstrando os passos que são necessários para que sua aplicação possa usá-lo. Como
+		será visto, são poucos e não tomarão muito tempo ou esforço.
+	</para>
+	<para>
+		Primeiro, precisamos informar no seu projeto que há uma dependência para um componente do Demoiselle. A configuração é bem simples, basta adicionar uma sessão <literal>dependency</literal>
+		igual ao da listagem abaixo.
+	</para>
+	<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>br.gov.frameworkdemoiselle.component</groupId>
+	<artifactId>demoiselle-validation</artifactId>
+	<version>2.0.0</version>
+	<type>jar</type>
+	<scope>compile</scope>
+</dependency>]]></programlisting>
+
+	<important>
+		<para>
+			Fique atento apenas para a versão do componente. No momento em que escrevíamos esta
+			documentação, o <emphasis>Demoiselle Validation</emphasis> encontrava-se na versão 2.0.0. 
+			Verifique constantemente nossos repositórios e fique sempre atento a nossos informes
+			sobre o lançamento de novas versões!
+		</para>
+	</important>
+	
+</chapter>

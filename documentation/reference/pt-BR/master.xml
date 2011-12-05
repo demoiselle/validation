@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<book lang="pt">
+<xi:include href="bookinfo.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+	<title>Demoiselle Validation</title>
+
+	<partintro>
+		<para>
+			A tarefa de validação de dados sempre foi uma necessidade da grande maioria das aplicações. Contudo, não havia uma forma comum para
+			realizar esta validação. Normalmente, esta regra era pulverizada em diversas camadas da aplicação. Ou, ainda pior, repetida tanto na visão
+			como nas regras de negócio. Para solucionar este problema, foi lançada a JSR 303, chamada de Beans Validation.
+		</para>
+		<para>
+			Esta especificação provê uma forma padrão para a criação de validações através do uso de anotações que podem ser usadas nos beans da aplicação.
+			Atualmente, as especificações JPA 2.0 e JSF 2.0 já se integram automaticamente à JSR 303, realizando automaticamente a validação e lançando a exceção
+			correspondente caso haja uma violação. O componente Demoiselle Validation visa prover validações mais específicas, comuns em aplicações diversas, principalmente
+			aquelas direcionadas para o público brasileiro, como CPF, CNPJ, CEP, Título de Eleitor, Inscrição Estadual e etc.
+		</para>
+	</partintro>
+	
+	<!-- capítulos -->
+	<xi:include href="configuracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="utilizacao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	
+</part>

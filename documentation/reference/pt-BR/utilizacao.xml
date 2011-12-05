@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
+<chapter id="validation-utilizacao">
+
+	<title>Utilização do Validation</title>
+	
+	<para>
+		Analisaremos agora como aplicar uma validação ao seu bean e quais são as validações que o
+		componente fornece para sua aplicação.
+	</para>
+	
+	<section>
+		<title>Implementação da Especificação</title>
+		<para>
+			Inicialmente, é necessário ter em seu <emphasis>classpath</emphasis> uma referência a alguma implementação da especificação. Atualmente,
+			a mais utilizada é a Hibernate Validator. Contudo, existem outras e cabe analisar qual a melhor para seu projeto, pois cada implementação também
+			fornece validações extras, além daquelas já descritas na própria especificação. Caso você opte pela utilização do Hibernate Validator, basta ter uma
+			dependência no seu POM, conforme o exemplo abaixo.
+		</para>
+		<programlisting role="XML"><![CDATA[<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-validator</artifactId>
+	<version>4.2.0-Final</version>
+	<type>jar</type>
+	<scope>compile</scope>
+</dependency>]]></programlisting>
+	</section>
+	
+	<section>
+		<title>Aplicando Validações a Beans</title>
+		<para>
+			Veremos agora como você pode aplicar a um bean de sua aplicação alguma validação. Não há qualquer complicação, bastando anotar os atributos
+			de sua classe com anotações específicas. O exemplo abaixo aplica uma validação que não permite que seja atribuído ao atributo <emphasis>nome</emphasis>
+			um valor nulo.
+		</para>
+		<programlisting role="JAVA"><![CDATA[public class MeuBean {
+
+	@NotNull
+	private String nome;
+    
+    // Gets e Sets
+}]]></programlisting>
+		<para>
+			A anotação <emphasis>@NotNull</emphasis> já é provida por padrão pela especificação.
+			Isto significa que toda implementação dela deve provê-la. 
+		</para>
+	</section>
+	
+	<section>
+		<title>Checando Restrições</title>
+		<para>
+			Conforme discutimos, o JSF 2.0 e o JPA 2.0 já realizam automaticamente a validação para você. Neste caso, quando você pede para um <emphasis>EntityManager</emphasis>
+			persistir seu bean, ele não o fará caso haja alguma restrição. Da mesma forma, durante a fase de validação do JSF 2.0 ocorrerá esta verificação, já exibindo o erro para o usuário.
+			Contudo, existem casos onde você queira verificar estas validações de forma manual, diretamente em sua classe de negócio, por exemplo. Para realizar esta tarefa, basta
+			ter o código abaixo.
+		</para>
+		<programlisting role="JAVA"><![CDATA[ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+Validator validator = factory.getValidator();
+Set<ConstraintViolation<?>> constraints = validator.validate(object, groups);
+
+for (ConstraintViolation<?> violation:constraints) {
+	violation.getMessage();
+	violation.getInvalidValue();
+	violation.getPropertyPath();
+}]]></programlisting>
+		<para>
+			As primeiras linhas são apenas para obter a implementação da JSR 303 que está disponível no seu <emphasis>classpath</emphasis>. Depois, obtemos o validador padrão e 
+			solicitamos a validação de um determinado objeto. Teremos, assim, um conjunto de violações de restrições, nas quais você pode iterar e obter informações específicas sobre a violação.
+		</para>
+	</section>
+	
+	<section>
+		<title>Validações Disponibilizadas</title>
+		<para>
+			O componente Demoiselle Validation provê outros tipos de validações, comuns em aplicações para o público brasileiro. 
+			As validações são de CPF, CNPJ, InscricaoEstadual, CEP, Título de Eleitor, PIS/PASEP. A utilização de cada uma é bem simples, bastando usar a anotação específica. Veja o exemplo abaixo.
+		</para>
+		<programlisting role="JAVA"><![CDATA[public class MeuBean {
+
+	@Cpf
+	private String cpf;
+    
+    @Cnpj
+    private String cnpj;
+    
+    @InscricaoEstadual(pattern=PatternInscricaoEstadual.BAHIA)
+    private String inscricaoEstadual;
+    
+    @Cep
+    private String cep;
+    
+    @TituloEleitor
+    private String tituloEleitor;
+    
+    @PisPasep
+    private String pis;
+    
+    // Gets e Sets
+}]]></programlisting>
+		<para>
+			Das anotações apresentadas no exemplo, cabe uma explicação mais detalhada apenas a referente à Inscrição Estadual, pois cada estado tem seu próprio padrão. Desta forma, você deve
+			informar para qual estado você quer realizar a validação. Esta validação ainda não provê uma forma universal de realizar a validação, de uma maneira na qual você não precisa informar
+			qual o estado. 
+		</para>
+	</section>
+	
+</chapter>
