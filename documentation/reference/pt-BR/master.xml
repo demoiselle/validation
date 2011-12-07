@@ -1,12 +1,17 @@
 <?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" []>
-<book lang="pt">
-<xi:include href="bookinfo.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+<book lang="pt" xmlns:xi="http://www.w3.org/2001/XInclude">
 
-	<title>Demoiselle Validation</title>
+<xi:include href="bookinfo.xml" />
 
-	<partintro>
+<!-- prefácio -->
+	<preface>
+		<title>Demoiselle Validation</title>
+		<para>
+			O <emphasis>Demoiselle Validation</emphasis> faz parte dos componentes disponibilizados e que são
+			compatíveis com a versão mais recente do <emphasis>Demoiselle Framework</emphasis>. 
+		</para>
 		<para>
 			A tarefa de validação de dados sempre foi uma necessidade da grande maioria das aplicações. Contudo, não havia uma forma comum para
 			realizar esta validação. Normalmente, esta regra era pulverizada em diversas camadas da aplicação. Ou, ainda pior, repetida tanto na visão
@@ -18,10 +23,11 @@
 			correspondente caso haja uma violação. O componente Demoiselle Validation visa prover validações mais específicas, comuns em aplicações diversas, principalmente
 			aquelas direcionadas para o público brasileiro, como CPF, CNPJ, CEP, Título de Eleitor, Inscrição Estadual e etc.
 		</para>
-	</partintro>
+		
+	</preface>
 	
 	<!-- capítulos -->
-	<xi:include href="configuracao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-	<xi:include href="utilizacao.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="configuracao.xml" />
+	<xi:include href="utilizacao.xml" />
 	
-</part>
+</book>
