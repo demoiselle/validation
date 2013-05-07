@@ -73,7 +73,7 @@ public @interface AllowedValues {
 	/**
 	 * Error message given when a constraint error is detected. 
 	 */
-	String message() default "{br.gov.frameworkdemoiselle.validation.allowedvalues}";
+	String message() default "{br.gov.frameworkdemoiselle.allowedvalues}";
 
     /**
      * List of constraint groups this constraint belongs to. Defaults to an empty array.
