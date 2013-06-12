@@ -75,6 +75,6 @@
 	</repositories>
 
 	<properties>
-		<project.context>component/validation/reference</project.context>
+		<project.context>components/validation/reference</project.context>
 	</properties>
 </project>
